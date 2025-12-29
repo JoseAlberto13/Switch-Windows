@@ -1,0 +1,26 @@
+# ========================================
+# Window Switcher - Dependencias de Desarrollo
+# ========================================
+# 
+# Estas son dependencias opcionales para desarrollo y testing
+# 
+# Instalación:
+#    pip install -r requirements.txt
+#    pip install -r requirements-dev.txt
+#
+# ========================================
+
+# Herramientas de desarrollo
+autopep8>=2.0.0          # Formateo automático de código
+pylint>=3.0.0            # Análisis estático de código
+black>=23.0.0            # Formateo de código (alternativa a autopep8)
+
+# Testing
+pytest>=7.4.0            # Framework de testing
+pytest-cov>=4.1.0        # Cobertura de tests
+
+# Type checking
+mypy>=1.5.0              # Verificación de tipos estáticos
+
+# Construcción de ejecutables
+pyinstaller>=6.0.0       # Para crear el .exe del proyecto

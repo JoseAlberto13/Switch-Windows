@@ -1,0 +1,4 @@
+# Instalar para poder ejecutar el proyecto
+# pip install -r requirements.txt
+
+pywin32
