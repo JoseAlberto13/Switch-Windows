@@ -2,6 +2,8 @@
 
 Aplicación para cambiar automáticamente entre ventanas en Windows.
 
+![Vista previa de la interfaz](./assets/preview/image.png)
+
 ## 🏗️ Arquitectura
 
 Este proyecto sigue principios de **Arquitectura Limpia** (Clean Architecture) y **SOLID**:
