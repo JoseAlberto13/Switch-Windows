@@ -1,4 +1,3 @@
-
 import time
 import win32gui
 import win32process
@@ -10,14 +9,10 @@ from .base_controller import BaseWindowController
 
 
 class WindowsWindowController(BaseWindowController):
+    """Controlador de ventanas para Windows usando Win32 API."""
 
     def list_windows(self) -> List[Dict]:
-        """
-        Lista todas las ventanas visibles del sistema Windows.
-        
-        Returns:
-            List[Dict]: Lista de ventanas con hwnd, title y pid
-        """
+        """Lista todas las ventanas visibles del sistema."""
         windows = []
 
         def enum_handler(hwnd, _):
@@ -31,15 +26,7 @@ class WindowsWindowController(BaseWindowController):
         return windows
 
     def find_window_by_title_contains(self, text: str) -> Optional[Dict]:
-        """
-        Busca una ventana cuyo título contenga el texto especificado.
-        
-        Args:
-            text: Texto a buscar (case-insensitive)
-            
-        Returns:
-            Optional[Dict]: Primera ventana encontrada o None
-        """
+        """Busca una ventana cuyo título contenga el texto especificado (case-insensitive)."""
         text = text.lower()
         for w in self.list_windows():
             if text in w["title"].lower():
@@ -49,38 +36,31 @@ class WindowsWindowController(BaseWindowController):
     def activate_window(self, hwnd: int) -> bool:
         """
         Activa y trae al frente la ventana especificada.
-        Implementa múltiples estrategias para garantizar la activación.
-        
-        Args:
-            hwnd: Handle de la ventana a activar
-            
-        Returns:
-            bool: True si la ventana fue activada exitosamente
+        Usa múltiples estrategias para garantizar la activación.
         """
         if not win32gui.IsWindow(hwnd):
             return False
 
-        # 1) Si está minimizada, restaurar
+        # Restaurar si está minimizada
         if win32gui.IsIconic(hwnd):
             win32gui.ShowWindow(hwnd, win32con.SW_RESTORE)
 
-        # 2) Intento normal
+        # Intento normal
         win32gui.BringWindowToTop(hwnd)
         win32gui.SetForegroundWindow(hwnd)
         time.sleep(0.05)
 
-        # 3) Verificación
+        # Verificar si funcionó
         if win32gui.GetForegroundWindow() == hwnd:
             return True
 
-        # 4) Fallback: AttachThreadInput (cuando Windows bloquea el foco)
+        # Fallback: AttachThreadInput para forzar el foco
         try:
             fg = win32gui.GetForegroundWindow()
             current_thread = win32api.GetCurrentThreadId()
             fg_thread = win32process.GetWindowThreadProcessId(fg)[0]
             target_thread = win32process.GetWindowThreadProcessId(hwnd)[0]
 
-            # Unimos entradas de hilos temporalmente
             win32process.AttachThreadInput(current_thread, fg_thread, True)
             win32process.AttachThreadInput(current_thread, target_thread, True)
 
@@ -94,3 +74,24 @@ class WindowsWindowController(BaseWindowController):
             return False
 
         return win32gui.GetForegroundWindow() == hwnd
+
+    def get_application_windows(self) -> List[str]:
+        """Obtiene lista de títulos de ventanas de aplicaciones, filtrando ventanas del sistema."""
+        windows = self.list_windows()
+        
+        app_titles = set()
+        excluded = [
+            "Program Manager",
+            "Settings",
+            "Microsoft Text Input Application",
+            "MSCTFIME UI",
+            "Default IME"
+        ]
+        
+        for window in windows:
+            title = window["title"].strip()
+            if title and len(title) > 1:
+                if not any(exc in title for exc in excluded):
+                    app_titles.add(title)
+        
+        return sorted(list(app_titles))

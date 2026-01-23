@@ -122,7 +122,7 @@ python main.py
 
 ## 🔮 Futuras Mejoras
 
-- [ ] Selector de ventanas en la UI
+- [✓] Selector de ventanas en la UI
 - [ ] Configuración de intervalo desde la UI
 - [ ] Soporte para Linux y macOS
 - [ ] Guardar configuración en archivo

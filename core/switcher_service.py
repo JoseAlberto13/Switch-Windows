@@ -3,19 +3,9 @@ from controllers.base_controller import BaseWindowController
 
 
 class WindowSwitcherService:
-    """
-    Servicio que gestiona el cambio automático entre ventanas.
-    """
+    """Servicio que gestiona el cambio automático entre ventanas."""
 
     def __init__(self, controller: BaseWindowController, targets: List[str], interval_ms: int):
-        """
-        Inicializa el servicio de cambio de ventanas.
-        
-        Args:
-            controller: Controlador de ventanas específico del OS
-            targets: Lista de títulos de ventanas objetivo
-            interval_ms: Intervalo en milisegundos entre cambios
-        """
         self.controller = controller
         self.targets = targets
         self.interval_ms = interval_ms
@@ -24,12 +14,7 @@ class WindowSwitcherService:
         self._on_status_change: Optional[Callable[[bool], None]] = None
 
     def set_status_callback(self, callback: Callable[[bool], None]) -> None:
-        """
-        Establece un callback para notificar cambios de estado.
-        
-        Args:
-            callback: Función que recibe True cuando está corriendo, False cuando está detenido
-        """
+        """Establece callback para notificar cambios de estado."""
         self._on_status_change = callback
 
     def start(self) -> None:
@@ -47,12 +32,7 @@ class WindowSwitcherService:
         return self._running
 
     def switch_to_next(self) -> bool:
-        """
-        Cambia a la siguiente ventana en la lista de objetivos.
-        
-        Returns:
-            bool: True si el cambio fue exitoso, False en caso contrario
-        """
+        """Cambia a la siguiente ventana en la lista de objetivos."""
         if not self._running:
             return False
 
@@ -80,6 +60,31 @@ class WindowSwitcherService:
 
     def reset_index(self) -> None:
         """Reinicia el índice de ventanas al inicio."""
+        self._current_index = 0
+
+    def add_target(self, target: str) -> bool:
+        """Añade una nueva ventana objetivo. Retorna False si ya existe."""
+        if target not in self.targets:
+            self.targets.append(target)
+            return True
+        return False
+
+    def remove_target(self, target: str) -> bool:
+        """Elimina una ventana objetivo. Retorna False si no existe."""
+        if target in self.targets:
+            self.targets.remove(target)
+            if self._current_index >= len(self.targets) and len(self.targets) > 0:
+                self._current_index = 0
+            return True
+        return False
+
+    def get_targets(self) -> List[str]:
+        """Obtiene la lista actual de ventanas objetivo."""
+        return self.targets.copy()
+
+    def clear_targets(self) -> None:
+        """Limpia todas las ventanas objetivo."""
+        self.targets.clear()
         self._current_index = 0
 
     def _notify_status_change(self) -> None:
