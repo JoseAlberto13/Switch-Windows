@@ -1,15 +1,16 @@
+# -------------------------
 # Configuración de ventanas
-TARGETS = [
-    "Google Chrome",
-    "Visual Studio Code"
-]
+# -------------------------
+TARGETS = []
 
 INTERVAL_MS = 60000  # 60 segundos entre cambios
 
+# -------------------------
 # Configuración de UI
+# -------------------------
 WINDOW_TITLE = "Window Switcher"
-WINDOW_WIDTH = 400
-WINDOW_HEIGHT = 450
+WINDOW_WIDTH = 400  # Ancho
+WINDOW_HEIGHT = 350  # Alto
 WINDOW_ALWAYS_ON_TOP = True
 
 # Colores de estado
@@ -20,5 +21,7 @@ STATUS_COLOR_STOPPED = "#dc3545"  # Rojo
 STATUS_FONT = ("Segoe UI", 11, "bold")
 BUTTON_FONT = ("Segoe UI", 10, "bold")
 
+# -------------------------
 # Configuración de sistema
-SUPPORTED_OS = ["Windows"]
+# -------------------------
+SUPPORTED_OS = ["Windows"]  # Por ahora solo Windows
