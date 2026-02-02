@@ -101,7 +101,7 @@ class WindowSwitcherGUI:
             bootstyle="danger",
             width=3
         )
-        self.status_indicator.grid(row=0, column=2, sticky="ns")
+        # self.status_indicator.grid(row=0, column=2, sticky="ns")
 
         # ===== SECCIÓN DE SELECCIÓN DE VENTANAS (COLAPSABLE) =====
         self.selection_frame = ttk.Labelframe(self.main_frame, text="Seleccionar Ventana", padding=10)

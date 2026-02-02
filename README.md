@@ -4,6 +4,10 @@ Aplicación para cambiar automáticamente entre ventanas en Windows.
 
 ![Vista previa de la interfaz](./assets/preview/image.png)
 
+### Limitaciones conocidas
+- Windows puede bloquear el cambio de foco si el usuario interactúa activamente con otra ventana.
+- La aplicación está pensada para entornos de proyección dedicados, sin interacción directa de mouse o teclado.
+
 ## 🏗️ Arquitectura
 
 Este proyecto sigue principios de **Arquitectura Limpia** (Clean Architecture) y **SOLID**:

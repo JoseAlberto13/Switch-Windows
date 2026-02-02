@@ -112,6 +112,7 @@ class WindowsWindowController(BaseWindowController):
                 excluded = [
                     "Configuración",
                     "Experiencia de entrada de Windows",
+                    "Host de experiencia del Shell de Windows",
                     "Program Manager",
                     "Settings",
                     "Microsoft Text Input Application",
